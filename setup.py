@@ -31,6 +31,6 @@ setup(
     author='Sathwik Alavala',
     author_email='alvalasathwik2023@gmail.com',
     packages=find_packages(),
-    install_requires= get_requirements('requirments.txt')
+    install_requires= get_requirements('requirements.txt')
 
 )
