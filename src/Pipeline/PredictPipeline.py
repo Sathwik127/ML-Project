@@ -2,6 +2,7 @@ import sys
 import pandas as pd
 import numpy as np
 from src.Execptionhandling import CustomException
+from src.logger import logging
 from src.Utils import load_object
 
 class PredictPipeline:
