@@ -7,7 +7,7 @@ import sys
 import os
 from src.logger import logging
 from src.Execptionhandling import CustomException
-sys.path.insert(0, os.path.dirname(__file__))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 application=Flask(__name__)
 
