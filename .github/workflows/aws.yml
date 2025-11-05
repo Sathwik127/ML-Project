@@ -54,7 +54,15 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           ECR_REPOSITORY: ${{ secrets.ECR_REPOSITORY_NAME }}
           IMAGE_TAG: latest
+
+      - name: Clean up Docker space
         run: |
+          echo "Freeing up disk space..."
+          docker system prune -af || true
+          docker volume prune -f || true
+          sudo rm -rf /usr/local/lib/python*/site-packages/nvidia || true
+          df -h
+            run: |
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
