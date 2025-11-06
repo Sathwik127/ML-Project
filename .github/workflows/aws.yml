@@ -72,6 +72,11 @@ jobs:
           
           
   Continuous-Deployment:
+    env:
+      AWS_REGION: us-east-2
+      ECR_REGISTRY: 858684731407.dkr.ecr.us-east-2.amazonaws.com
+      ECR_REPOSITORY: studentperformance
+
     needs: build-and-push-ecr-image
     runs-on: self-hosted
     steps:
@@ -100,6 +105,15 @@ jobs:
       # - name: Stop and remove  container if running
       #   run: |
       #    docker ps -q --filter "name=mltest" | grep -q . && docker stop mltest && docker rm -fv mltest
+      - name: Run Docker Image
+        run: |
+          echo "Running image: ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest"
+          docker run -d -p 8080:8080 --ipc=host --name=mltest \
+          -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }} \
+          -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }} \
+          -e AWS_REGION=${{ env.AWS_REGION }} \
+          ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:latest
+
        
       - name: Run Docker Image to serve users
         run: |
